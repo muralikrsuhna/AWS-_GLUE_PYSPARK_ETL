@@ -7,7 +7,7 @@ from pyspark.sql.functions import *
 from pyspark.sql.types import *
 
 
-args = getResolvedOptions(sys.argv, ['MY_JOB_NAME''JDBC_URL', 'USERNAME', 'PASSWORD', 
+args = getResolvedOptions(sys.argv, ['MY_JOB_NAME','JDBC_URL', 'USERNAME', 'PASSWORD', 
                                      'POLICY', 'PERSONS','CALIMS'])
 sc = SparkContext()
 glueContext = GlueContext(sc)
@@ -93,7 +93,7 @@ new_records = join_info_key_data.filter(col("syskey").isNotNull()).select("acc_n
 # adding newly generated syskey in s3 file
 if new_records.count() > 0:
     new_records.write.mode("append").option("header", "true").csv(info_syskey)
-# drop the s_sccount_number column
+# drop the s_account_number column
     
 join_info_key_data=join_info_key_data.drop(join_info_key_data["s_account_number"])
 
